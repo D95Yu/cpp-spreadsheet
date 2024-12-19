@@ -58,7 +58,6 @@ void Sheet::ClearCell(Position pos) {
     auto cell = cells_.find(pos);
     if (cell != cells_.end()) {
         cell->second->Clear();
-        cells_.erase(pos);
 
         ChangePrintableSize(pos);
     }

@@ -4,7 +4,7 @@
 #include "formula.h"
 
 #include <optional>
-#include <set>
+#include <unordered_set>
 
 class Sheet;
 
@@ -21,7 +21,7 @@ public:
 
     std::vector<Position> GetReferencedCells() const override;
     bool IsReferenced() const;
-    void InvalidateCellCache(bool flag);
+    void InvalidateCellCache(bool flag = false);
 
 private:
     class Impl {
@@ -115,8 +115,8 @@ private:
 
     std::unique_ptr<Impl> impl_;
     Sheet& sheet_;
-    std::set<Cell*> dependent_cells_;
-    std::set<Cell*> referenced_cells_;
+    std::unordered_set<Cell*> dependent_cells_;
+    std::unordered_set<Cell*> referenced_cells_;
 
     bool HasCircularDependence(const std::vector<Position>& ref_cells_pos);
     void UpdateCellsDependence(const std::vector<Position>& ref_cells_pos);

@@ -35,7 +35,7 @@ void Cell::Set(std::string text) {
 }
 
 void Cell::Clear() {
-    impl_ = std::make_unique<EmptyImpl>();
+    Set(std::string());
 }
 
 Cell::Value Cell::GetValue() const {
@@ -54,7 +54,7 @@ bool Cell::IsReferenced() const {
     return !dependent_cells_.empty();
 }
 
-void Cell::InvalidateCellCache(bool flag = false) {
+void Cell::InvalidateCellCache(bool flag) {
     if (impl_->HasCache() || flag) {
         impl_->InvalidateCache();
 
@@ -69,8 +69,8 @@ bool Cell::HasCircularDependence(const std::vector<Position>& ref_cells_pos) {
         return false;
     }
 
-    std::set<const Cell*> ref_cells;
-    std::set<const Cell*> visited_cells;
+    std::unordered_set<const Cell*> ref_cells;
+    std::unordered_set<const Cell*> visited_cells;
     std::vector<const Cell*> cells_to_visit;
 
     for (const auto& pos : ref_cells_pos) {
@@ -106,7 +106,7 @@ void Cell::UpdateCellsDependence(const std::vector<Position>& ref_cell_pos) {
         Cell* ref_cell = sheet_.GetCellPtr(pos);
 
         if (!ref_cell) {
-            sheet_.SetCell(pos, "");
+            sheet_.SetCell(pos, std::string());
             ref_cell = sheet_.GetCellPtr(pos);
         }
         referenced_cells_.insert(ref_cell);
