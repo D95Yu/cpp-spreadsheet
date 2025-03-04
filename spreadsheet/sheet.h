@@ -33,12 +33,10 @@ public:
     void PrintValues(std::ostream& output) const override;
     void PrintTexts(std::ostream& output) const override;
 
-	// Можете дополнить ваш класс нужными полями и методами
     const Cell* GetCellPtr(Position pos) const;
     Cell* GetCellPtr(Position pos);
 
 private:
-	// Можете дополнить ваш класс нужными полями и методами
     std::unordered_map<Position, std::unique_ptr<Cell>, CellHasher> cells_;
     std::map<int, int> max_cols_;
     std::map<int,int> max_rows_;

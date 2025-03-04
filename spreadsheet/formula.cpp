@@ -14,7 +14,7 @@ namespace {
     
 class Formula : public FormulaInterface {
 public:
-// Реализуйте следующие методы:
+
     explicit Formula(std::string expression) 
        try : ast_(ParseFormulaAST(std::move(expression))) {
        } catch(...) {
@@ -22,7 +22,7 @@ public:
        }
         
     Value Evaluate(const SheetInterface& sheet) const override {
-        //создание функтора
+
         std::function<double(Position)> args = [&sheet](const Position pos) {
             //если позиция невалидна
             if (!pos.IsValid()) {
