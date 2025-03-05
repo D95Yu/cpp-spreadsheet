@@ -74,7 +74,6 @@ public:
     virtual void DoPrintFormula(std::ostream& out, ExprPrecedence precedence) const = 0;
     virtual double Evaluate(const std::function<double(Position)>& args) const = 0;
 
-    // higher is tighter
     virtual ExprPrecedence GetPrecedence() const = 0;
 
     void PrintFormula(std::ostream& out, ExprPrecedence parent_precedence,
@@ -419,7 +418,7 @@ double FormulaAST::Execute(const std::function<double(Position)>& args) const {
 FormulaAST::FormulaAST(std::unique_ptr<ASTImpl::Expr> root_expr, std::forward_list<Position> cells)
     : root_expr_(std::move(root_expr))
     , cells_(std::move(cells)) {
-    cells_.sort();  // to avoid sorting in GetReferencedCells
+    cells_.sort();  
 }
 
 FormulaAST::~FormulaAST() = default;

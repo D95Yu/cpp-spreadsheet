@@ -14,21 +14,20 @@ using namespace std::literals;
 Sheet::~Sheet() {}
 
 void Sheet::SetCell(Position pos, std::string text) {
-    //позиция невалидна
+    
     if (!pos.IsValid()) {
         throw InvalidPositionException("invalid position");
     }
-    //ячейка с такой позицией уже есть в таблице 
+
     if (cells_.find(pos) != cells_.end()) {
-        //переназначаем ее
+
         cells_.at(pos)->Set(std::move(text));
-    //ячейки с такой позицией нет в таблице
+
     }else {
-        //создается ячейка
+
         cells_[pos] = std::make_unique<Cell>(*this);
-        //добавление назначения ячейки
         cells_[pos]->Set(std::move(text));
-        //добавление строки и колонки в счетчики
+
         max_cols_[pos.col] += 1;
         max_rows_[pos.row] += 1;
     }   

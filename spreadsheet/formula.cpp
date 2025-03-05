@@ -24,30 +24,30 @@ public:
     Value Evaluate(const SheetInterface& sheet) const override {
 
         std::function<double(Position)> args = [&sheet](const Position pos) {
-            //если позиция невалидна
+
             if (!pos.IsValid()) {
                 throw FormulaError::Category::Ref;
             }
     
             const auto* cell = sheet.GetCell(pos);
-            //если такой ячейки нет
+
             if (!cell) {
                 return 0.;
             }
-            //если есть ячейка double
+
             if (std::holds_alternative<double>(cell->GetValue())) {
                 return std::get<double>(cell->GetValue());
             }
-            //если есть текстовая ячейка 
+
             if (std::holds_alternative<std::string>(cell->GetValue())) {
                 std::string text = std::get<std::string>(cell->GetValue());
-                //если текстовая ячейка пустая
+
                 if (text.empty()) {
                     return 0.;
                 }
                 std::istringstream input(text);
                 double result = 0.;
-                //попробовать преобразовать в double 
+
                 if (input >> result && input.eof()) {
                     return result;
                 }else {
